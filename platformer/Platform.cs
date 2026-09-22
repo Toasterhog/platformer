@@ -5,17 +5,19 @@ namespace platformer;
 public class Platform : Entity
 {
     public override bool Solid => true;
-    public Platform() : base("tileset") {
+    public Platform()  {
         sprite.TextureRect = new IntRect(0, 0, 18, 18);
         sprite.Origin = new Vector2f(0, 0);
+        sprite.Texture = textures["tileset"];
     }
 }
 
 public class Background : Entity
 {
-    public Background() : base("background") {
+    public Background() {
         sprite.TextureRect = new IntRect(0, 0, 24, 24);
         sprite.Origin = new Vector2f(12, 12);
+        sprite.Texture = textures["background"];
     }
 
     public override void Render(RenderTarget target)
@@ -47,18 +49,20 @@ public class Background : Entity
 
 public class Door : Entity
 {
-    public Door() : base("tileset")
+    public Door()
     {
         sprite.TextureRect = new IntRect(180, 103, 18, 23);
         sprite.Origin = new Vector2f(9, 23/2f); //14
+        sprite.Texture = textures["tileset"];
     }
 }
 
 public class Key : Entity
 {
-    public Key() : base("tileset")
+    public Key() 
     {
         sprite.TextureRect = new IntRect(126, 18, 18, 18);
         sprite.Origin = new Vector2f(12, 12);
+        sprite.Texture = textures["tileset"];
     }
 }

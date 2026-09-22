@@ -13,6 +13,9 @@ namespace platformer {
                        new VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Platformer")) {
                 window.Closed += (o, e) => window.Close();
                 // TODO: Initialize
+                Entity.InnitEntitytextures(); //viktigt att detta är innan dze andra innit sakerna
+                
+                
                 Scene scene = new Scene();
                 scene.Spawn(new Background());
                 

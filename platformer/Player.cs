@@ -7,10 +7,11 @@ public class Player : Entity
 {
     private bool faceRight = false;
     
-    public Player(): base("characters")
+    public Player()
     {
         sprite.TextureRect = new IntRect(0, 0, 24, 24);
         sprite.Origin = new Vector2f(12, 12);
+        sprite.Texture = textures["characters"];
     }
     
     
