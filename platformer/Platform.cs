@@ -43,6 +43,8 @@ public class Background : Entity
 
 public class Door : Entity
 {
+    public string nextScene;
+    public bool unlocked = false;
     public Door()
     {
         sprite.TextureRect = new IntRect(180, 103, 18, 23);

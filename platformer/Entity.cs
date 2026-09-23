@@ -9,24 +9,7 @@ public class Entity {
     protected readonly Sprite sprite;
     public bool Dead;
     public virtual bool Solid => false;
-    public static Dictionary<string, Texture> textures = new(); // bästa fix
-
-    public static void InnitEntitytextures() 
-    {
-        foreach (string textureName in new string[] {"tileset", "background","characters"})
-        {
-            if (textures.TryGetValue(textureName, out Texture found))
-            {
-                Console.WriteLine("tried loading " + textureName + "twice");
-                continue;
-            }
-            string fileName = $"assets/{textureName}.png";
-            Texture texture = new Texture(fileName);
-            textures.Add(textureName, texture);
-            Console.WriteLine($"texture name : {textureName} loaded");
-            
-        }
-    }
+    public static Dictionary<string, Texture> textures = new(); 
     
     protected Entity() {
         sprite = new Sprite();
@@ -38,6 +21,27 @@ public class Entity {
     }
     public virtual FloatRect Bounds =>
         sprite.GetGlobalBounds();
+    
+    public static void InitEntitytextures() 
+    {
+        if (textures.Count > 0)
+        {
+            textures.Clear();
+        }
+        foreach (string textureName in new string[] {"tileset", "background","characters"})
+        {
+            // if (textures.TryGetValue(textureName, out Texture found))
+            // {
+            //     Console.WriteLine("tried loading " + textureName + "twice");
+            //     continue;
+            // }
+            string fileName = $"assets/{textureName}.png";
+            Texture texture = new Texture(fileName);
+            textures.Add(textureName, texture);
+            Console.WriteLine($"texture name : {textureName} loaded");
+            
+        }
+    }
     
     public virtual void Render(RenderTarget target) {
         target.Draw(sprite);

@@ -13,29 +13,30 @@ namespace platformer {
                        new VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Platformer")) {
                 window.Closed += (o, e) => window.Close();
                 // TODO: Initialize
-                Entity.InnitEntitytextures(); //viktigt att detta är innan dze andra innit sakerna
+                Entity.InitEntitytextures(); //viktigt att detta är innan dze andra innit sakerna
                 
                 
                 Scene scene = new Scene();
-                scene.Spawn(new Background());
-                
-                Door door = new Door();
-                door.Position = new Vector2f(18f*5, 18f * 10);
-                scene.Spawn(door);
-
-                Key key = new Key();
-                key.Position = new Vector2f(240f, 120f);
-                scene.Spawn(key);
-
-                Player player = new Player();
-                player.Position = new Vector2f(18, 18);
-                scene.Spawn(player);
-                
-                for (int i = 0; i < 20; i++) {
-                    scene.Spawn(new Platform {
-                        Position = new Vector2f(18 + i * 18, 24f*10)
-                    });
-                }
+                scene.Load("level0");
+                // scene.Spawn(new Background());
+                //
+                // Door door = new Door();
+                // door.Position = new Vector2f(18f*5, 18f * 10);
+                // scene.Spawn(door);
+                //
+                // Key key = new Key();
+                // key.Position = new Vector2f(240f, 120f);
+                // scene.Spawn(key);
+                //
+                // Player player = new Player();
+                // player.Position = new Vector2f(18, 18);
+                // scene.Spawn(player);
+                //
+                // for (int i = 0; i < 20; i++) {
+                //     scene.Spawn(new Platform {
+                //         Position = new Vector2f(18 + i * 18, 24f*10)
+                //     });
+                // }
                 
                 window.SetView(new View(
                     new Vector2f(200, 150),
