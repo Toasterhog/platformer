@@ -6,6 +6,13 @@ namespace platformer;
 public class Player : Entity
 {
     private bool faceRight = false;
+    public const float WalkSpeed = 100.0f;
+    public const float JumpForce = 250.0f;
+    public const float GravityForce = 400.0f;
+    
+    private float verticalSpeed = 100.0f;
+    private bool isGrounded = false;
+    private bool isUpPressed = false;
     
     public Player()
     {
@@ -14,16 +21,34 @@ public class Player : Entity
         sprite.Texture = textures["characters"];
     }
     
-    
-    public override void Update(Scene scene, float deltaTime) {
-        if (Keyboard.IsKeyPressed(Keyboard.Key.Left)) {
-            Position -= new Vector2f(100 * deltaTime, 0);
+    public override void Update(Scene scene, float deltaTime)
+    {
+        if (Keyboard.IsKeyPressed(Keyboard.Key.Left))
+        {
+            scene.TryMove(this, new Vector2f(-100*deltaTime, 0)); // så att det matchar det nya trymove functionen i scene
             faceRight = false;
         }
         if (Keyboard.IsKeyPressed(Keyboard.Key.Right))
         {
-            Position += new Vector2f(100 * deltaTime, 0);
+            scene.TryMove(this, new Vector2f(100 * deltaTime, 0));
             faceRight = true;
+        }
+
+        if (Keyboard.IsKeyPressed(Keyboard.Key.Up))
+        {
+            verticalSpeed -= JumpForce;
+            verticalSpeed += GravityForce * deltaTime;
+            if (verticalSpeed > 500.0f) verticalSpeed = 500.0f;
+            isGrounded = false;
+            Vector2f velocity = new Vector2f(0, verticalSpeed * deltaTime);
+            if (scene.TryMove(this, velocity))
+            {
+                if (verticalSpeed > 0.0f)
+                {
+                    isGrounded = true;
+                }
+                verticalSpeed = 0.0f;
+            }
         }
         
     }

@@ -11,14 +11,13 @@ namespace platformer {
             entities = new List<Entity>();
         }
         
-        public void Spawn(Entity entity) {
+        public void Spawn(Entity entity) { //spawnar
             entities.Add(entity);
         }
-        
 
         public void UpdateAll(float deltaTime)
         {
-            for (int i = entities.Count - 1; i >= 0; i--) //update
+            for (int i = entities.Count - 1; i >= 0; i--) //updatear entitys
             {
                 Entity entity = entities[i];
                 entity.Update(this, deltaTime);
@@ -32,11 +31,11 @@ namespace platformer {
             }
         }
 
-        public void RenderAll(RenderTarget terget)
+        public void RenderAll(RenderTarget target) //renderar entity för varje entity i 
         {
             foreach (Entity entity in entities)
             {
-                entity.Render(terget);
+                entity.Render(target);
             }
         }
         
@@ -48,9 +47,15 @@ namespace platformer {
                 Entity other = entities[i];
                 if (!other.Solid) continue;
                 if (other == entity) continue;
-// TODO: See if they intersect (30 – 31)
+                FloatRect boundsA = entity.Bounds;
+                FloatRect boundsB = other.Bounds;
+                if (Collision.RectangleRectangle(boundsA, boundsB, out Collision.Hit hit)) //kollar en rectangle rectangle collision
+                {
+                    entity.Position += hit.Normal * hit.Overlap;
+                    i = -1; //dethär kolla om allt 1 gång till
+                    collided = true;
+                }
             }
-            
             return collided;
         }
         

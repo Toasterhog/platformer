@@ -20,7 +20,7 @@ public class Background : Entity
         sprite.Texture = textures["background"];
     }
 
-    public override void Render(RenderTarget target)
+    public override void Render(RenderTarget target) 
     {
         View view = target.GetView();
         Vector2f topLeft = view.Center - 0.5f * view.Size;
@@ -33,12 +33,6 @@ public class Background : Entity
                 if (row < 5) sprite.TextureRect = new IntRect(0, 0, 24, 24);
                 else if (row == 5) sprite.TextureRect = new IntRect(24, 0, 24, 24);
                 else if (row > 5) sprite.TextureRect = new IntRect(48, 0, 24, 24);
-                // sprite.TextureRect = row switch
-                // {
-                //     < 5 => new IntRect(0, 0, 24, 24),
-                //     5 => new IntRect(24, 0, 24, 24),
-                //     > 5 => new IntRect(48, 0, 24, 24)
-                // };
                 sprite.Origin = new Vector2f();
                 sprite.Position = topLeft + 24 * new Vector2f(col, row);
                 target.Draw(sprite);
@@ -52,7 +46,7 @@ public class Door : Entity
     public Door()
     {
         sprite.TextureRect = new IntRect(180, 103, 18, 23);
-        sprite.Origin = new Vector2f(9, 23/2f); //14
+        sprite.Origin = new Vector2f(9, 23/2f); //eller 14
         sprite.Texture = textures["tileset"];
     }
 }

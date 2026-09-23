@@ -11,7 +11,7 @@ public class Entity {
     public virtual bool Solid => false;
     public static Dictionary<string, Texture> textures = new(); // bästa fix
 
-    public static void InnitEntitytextures()
+    public static void InnitEntitytextures() 
     {
         foreach (string textureName in new string[] {"tileset", "background","characters"})
         {
@@ -27,9 +27,7 @@ public class Entity {
             
         }
     }
-
     
-
     protected Entity() {
         sprite = new Sprite();
     }
@@ -40,7 +38,6 @@ public class Entity {
     }
     public virtual FloatRect Bounds =>
         sprite.GetGlobalBounds();
-    
     
     public virtual void Render(RenderTarget target) {
         target.Draw(sprite);
