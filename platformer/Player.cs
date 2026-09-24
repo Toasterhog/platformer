@@ -4,11 +4,11 @@ using SFML.Window;
 namespace platformer;
 
 public class Player : Entity
-{
+{ //fiskmås parantes
     private bool faceRight = false;
     public const float WalkSpeed = 100.0f;
     public const float JumpForce = 250.0f;
-    public const float GravityForce = 500.0f;
+    public const float GravityForce = 400.0f;
     
     private float verticalSpeed = 100.0f;
     private bool isGrounded = false;
