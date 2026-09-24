@@ -86,7 +86,7 @@ namespace platformer {
                        case "d":
                            entity = new Door();
                            entity.Position = new Vector2f(float.Parse(words[1]), float.Parse(words[2]));
-                           Door d = entity as Door; // jag är polymorphism profs /s
+                           Door d = entity as Door; // jag är polymorphism profs /s HJÄÖLP HÄP
                            d.nextScene = words[3];
                            entity = d;
                            break;

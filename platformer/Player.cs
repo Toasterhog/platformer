@@ -8,11 +8,21 @@ public class Player : Entity
     private bool faceRight = false;
     public const float WalkSpeed = 100.0f;
     public const float JumpForce = 250.0f;
-    public const float GravityForce = 500.0f;
+    public const float GravityForce = 380.0f;
     
     private float verticalSpeed = 100.0f;
     private bool isGrounded = false;
     private bool isUpPressed = false;
+    public override FloatRect Bounds {
+        get {
+            var bounds = base.Bounds;
+            bounds.Left += 3;
+            bounds.Width -= 6;
+            bounds.Top += 3;
+            bounds.Height -= 3;
+            return bounds;
+        }
+    }
     
     public Player()
     {

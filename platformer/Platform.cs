@@ -44,7 +44,6 @@ public class Background : Entity
 public class Door : Entity //ruben fatter ej default värden på properties här
 {
     public string nextScene = "level0"; //bara default värde
-
     
     private bool _unlocked = false;
     public bool unlocked
