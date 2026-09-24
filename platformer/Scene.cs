@@ -59,64 +59,81 @@ namespace platformer {
             }
             return collided;
         }
-        
-            private void HandleSceneChange() {
-            if (nextScene == null) return;
-            entities.Clear();
-            Spawn(new Background());
-            string file = $"assets/{nextScene}.txt";
-            Console.WriteLine($"Loading scene '{file}'");
-            // TODO: Load scene from file
-            foreach (var line in File.ReadLines(file, System.Text.Encoding.UTF8)) {
-                string parsed = line.Trim();
-                int commentAt = parsed.IndexOf('#'); //returerar -1 om "#" inte finns
-                if (commentAt >= 0) {
-                    parsed = parsed.Substring(0, commentAt);
-                    parsed = parsed.Trim();
-                }
-                if (parsed.Length == 0) continue;
-                string[] words = parsed.Split(" ");
-                Entity entity; //frågetecken betyder att det är ok att den är null (onödigt för klasser eftersom de är referenstyper)
-                switch(words[0]) {
-                    case "w":
-                        entity = new Platform();
-                        entity.Position = new Vector2f(float.Parse(words[1]), float.Parse(words[2]));
-                        break;
-                    case "d":
-                        entity = new Door();
-                        entity.Position = new Vector2f(float.Parse(words[1]), float.Parse(words[2]));
-                        Door d = entity as Door; // jag är polymorphism profs /s
-                        d.nextScene = words[3];
-                        entity = d;
-                        break;
-                    case "k":
-                        entity = new Key();
-                        entity.Position = new Vector2f(float.Parse(words[1]), float.Parse(words[2]));
-                        break;
-                    case "h":
-                        entity = new Player();
-                        entity.Position = new Vector2f(float.Parse(words[1]), float.Parse(words[2]));
-                        break;
-                    default: //för att jag inte fick null att funka
-                        entity = new Platform();
-                        entity.Position = new Vector2f(-6767f, 0f);
-                        break;
-                }
-                //om första ordet inte var w, d, k eller h -> entity = null
-                // if (entity != null) //fattar ej varför denna rad ger error
-                // {
-                //     Spawn(entity);
-                // }
-                if (!(entity.Position.X == -6767f))
+            private void HandleSceneChange() 
+            {
+                if (nextScene == null) return;
+                entities.Clear();
+                Spawn(new Background());
+                string file = $"assets/{nextScene}.txt";
+                Console.WriteLine($"Loading scene '{file}'");
+                // Loads scene from text file
+                foreach (var line in File.ReadLines(file, System.Text.Encoding.UTF8))
                 {
-                    Spawn(entity);
-                }
-                    
-            } 
-            currentScene = nextScene;
-            nextScene = null;
-        }
+                   string parsed = line.Trim();
+                   int commentAt = parsed.IndexOf('#'); //returerar -1 om "#" inte finns
+                   if (commentAt >= 0) {
+                       parsed = parsed.Substring(0, commentAt);
+                       parsed = parsed.Trim();
+                   }
+                   if (parsed.Length == 0) continue;
+                   string[] words = parsed.Split(" ");
+                   Entity entity; //frågetecken betyder att det är ok att den är null (onödigt för klasser eftersom de är referenstyper)
+                   switch(words[0]) {
+                       case "w":
+                           entity = new Platform();
+                           entity.Position = new Vector2f(float.Parse(words[1]), float.Parse(words[2]));
+                           break;
+                       case "d":
+                           entity = new Door();
+                           entity.Position = new Vector2f(float.Parse(words[1]), float.Parse(words[2]));
+                           Door d = entity as Door; // jag är polymorphism profs /s
+                           d.nextScene = words[3];
+                           entity = d;
+                           break;
+                       case "k":
+                           entity = new Key();
+                           entity.Position = new Vector2f(float.Parse(words[1]), float.Parse(words[2]));
+                           break;
+                       case "h":
+                           entity = new Player();
+                           entity.Position = new Vector2f(float.Parse(words[1]), float.Parse(words[2]));
+                           break;
+                       default: //för att jag inte fick null att funka
+                           entity = new Platform();
+                           entity.Position = new Vector2f(-6767f, 0f);
+                           break;
+                   }
+                   if (!(entity.Position.X == -6767f))
+                   {
+                       Spawn(entity);
+                   }
+                       
+                } 
+                currentScene = nextScene; 
+                nextScene = null;
+            }
 
+            public bool FindByType<T>(out T found) where T : Entity
+            {
+                for (int i = 0; i < entities.Count; i++)
+                {
+                    if (entities[i] is T match)
+                    {
+                        found = match;
+                        return true;
+                    }
+
+                    Entity entity = entities[i];
+                    if (!entity.Dead && entity is T typed)
+                    {
+                        found = typed;
+                        return true;
+                    }
+                }
+                found = null;
+                return false;
+            }
+        
         public void Load(String LevelName)
         {
             nextScene = LevelName;
@@ -126,7 +143,5 @@ namespace platformer {
         {
             nextScene = currentScene;
         }
-        
     }
-    
 }

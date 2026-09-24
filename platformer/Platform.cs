@@ -48,7 +48,7 @@ public class Door : Entity
     public Door()
     {
         sprite.TextureRect = new IntRect(180, 103, 18, 23);
-        sprite.Origin = new Vector2f(9, 23/2f); //eller 14
+        sprite.Origin = new Vector2f(9, 23); //eller 14
         sprite.Texture = textures["tileset"];
     }
 }
@@ -58,7 +58,7 @@ public class Key : Entity
     public Key() 
     {
         sprite.TextureRect = new IntRect(126, 18, 18, 18);
-        sprite.Origin = new Vector2f(12, 12);
+        sprite.Origin = new Vector2f(9, 9); // mitten av 18, 18
         sprite.Texture = textures["tileset"];
     }
 }
