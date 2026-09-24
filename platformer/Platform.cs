@@ -87,7 +87,7 @@ public class Key : Entity
     public Key() 
     {
         sprite.TextureRect = new IntRect(126, 18, 18, 18);
-        sprite.Origin = new Vector2f(9, 9);
+        sprite.Origin = new Vector2f(9, 9); // mitten av 18, 18
         sprite.Texture = textures["tileset"];
     }
 

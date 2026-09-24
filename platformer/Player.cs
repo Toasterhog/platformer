@@ -8,7 +8,7 @@ public class Player : Entity
     private bool faceRight = false;
     public const float WalkSpeed = 100.0f;
     public const float JumpForce = 250.0f;
-    public const float GravityForce = 400.0f;
+    public const float GravityForce = 500.0f;
     
     private float verticalSpeed = 100.0f;
     private bool isGrounded = false;
@@ -33,24 +33,35 @@ public class Player : Entity
             scene.TryMove(this, new Vector2f(100 * deltaTime, 0));
             faceRight = true;
         }
-
-        if (Keyboard.IsKeyPressed(Keyboard.Key.Up))
-        {
-            verticalSpeed -= JumpForce;
-            verticalSpeed += GravityForce * deltaTime;
-            if (verticalSpeed > 500.0f) verticalSpeed = 500.0f;
-            isGrounded = false;
-            Vector2f velocity = new Vector2f(0, verticalSpeed * deltaTime);
-            if (scene.TryMove(this, velocity))
-            {
-                if (verticalSpeed > 0.0f)
-                {
-                    isGrounded = true;
-                }
-                verticalSpeed = 0.0f;
+      
+        verticalSpeed += GravityForce * deltaTime;
+        if (Keyboard.IsKeyPressed(Keyboard.Key.Up)) {
+            if (isGrounded && !isUpPressed) {
+                verticalSpeed = -JumpForce;
+                isUpPressed = true;
+            }
+            else {
+                isUpPressed = false;
             }
         }
-        
+            
+        Vector2f velocity = new Vector2f(0, verticalSpeed * deltaTime);
+        if (scene.TryMove(this, velocity)) { 
+            if (verticalSpeed > 0.0f) {
+                isGrounded = true;
+            }
+            verticalSpeed = 0.0f;
+            
+        }
+        else {
+            isGrounded = false;
+        }
+
+        Console.WriteLine($"{Position.Y}");
+        if (Position.Y > 300f)
+        {
+            scene.Reload();
+        }
     }
 
     public override void Render(RenderTarget target)
