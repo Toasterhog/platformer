@@ -60,7 +60,8 @@ namespace platformer {
             return collided;
         }
         
-            private void HandleSceneChange() {
+        private void HandleSceneChange() 
+        {
             if (nextScene == null) return;
             entities.Clear();
             Spawn(new Background());
@@ -126,7 +127,19 @@ namespace platformer {
         {
             nextScene = currentScene;
         }
-        
+
+        public bool FindEntityByType<T>(out T found) where T : Entity
+        {
+            foreach (Entity entity in entities)
+            {
+                if (!entity.Dead && entity is T typed) {
+                    found = typed;
+                    return true;
+                }
+            }
+            found = default(T);
+            return false;
+        }
     }
     
 }

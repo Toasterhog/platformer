@@ -7,7 +7,7 @@ public class Platform : Entity
     public override bool Solid => true;
     public Platform()  {
         sprite.TextureRect = new IntRect(0, 0, 18, 18);
-        sprite.Origin = new Vector2f(0, 0);
+        sprite.Origin = new Vector2f(9, 9);
         sprite.Texture = textures["tileset"];
     }
 }
@@ -41,16 +41,45 @@ public class Background : Entity
     }
 }
 
-public class Door : Entity
+public class Door : Entity //ruben fatter ej default värden på properties här
 {
-    public string nextScene;
-    public bool unlocked = false;
+    public string nextScene = "level0"; //bara default värde
+
+    
+    private bool _unlocked = false;
+    public bool unlocked
+    {
+        get;
+        set
+        {
+            field = value;
+            //unlocked = value; //ger error
+            sprite.Color = new Color(70, 70, 70);
+        }
+    } = false;
+    
     public Door()
     {
+        unlocked = false;
+        
         sprite.TextureRect = new IntRect(180, 103, 18, 23);
-        sprite.Origin = new Vector2f(9, 23/2f); //eller 14
+        sprite.Origin = new Vector2f(9, 14); //eller 14 eller 23/2 sprite är 18,23 tror jag
         sprite.Texture = textures["tileset"];
     }
+    
+    public override void Update(Scene scene, float deltaTime) {
+        if (unlocked)
+        {
+            scene.FindEntityByType(out Player player);
+            FloatRect boundsA = this.Bounds;
+            FloatRect boundsB = player.Bounds;
+            if (Collision.RectangleRectangle(boundsA, boundsB, out _)) // understreck värkar va nån "jag bryr mig inte om den här variabeln, skit i den"-grej
+            {
+                scene.Load(nextScene);
+            }
+        }
+    }
+    
 }
 
 public class Key : Entity
@@ -58,7 +87,24 @@ public class Key : Entity
     public Key() 
     {
         sprite.TextureRect = new IntRect(126, 18, 18, 18);
-        sprite.Origin = new Vector2f(12, 12);
+        sprite.Origin = new Vector2f(9, 9);
         sprite.Texture = textures["tileset"];
+    }
+
+    public override void Update(Scene scene, float deltaTime)
+    {
+        
+        scene.FindEntityByType(out Player player);
+        FloatRect boundsA = this.Bounds;
+        FloatRect boundsB = player.Bounds;
+        if (Collision.RectangleRectangle(boundsA, boundsB, out _)) // understreck värkar va nån "jag bryr mig inte om den här variabeln, skit i den"-grej
+        {
+            if (scene.FindEntityByType(out Door door)) // if ifall dörr inte finns i scenen
+            {
+                door.unlocked = true;
+            }
+            Dead = true;
+        }
+        
     }
 }
