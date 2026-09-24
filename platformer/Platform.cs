@@ -41,6 +41,7 @@ public class Background : Entity
 public class Door : Entity //ruben fatter ej default värden på properties här 
 {
     public string nextScene = "level0"; //bara default värde
+    
     private bool _unlocked = false;
     public bool unlocked // property med en custom setter, varje gång unlocked säts så körs setter logiken och sätter färgen av dörren till grå.
     {
@@ -48,7 +49,8 @@ public class Door : Entity //ruben fatter ej default värden på properties här
         set
         {
             field = value;
-            sprite.Color = new Color(70, 70, 70);
+            if (value) sprite.Color = new Color(70, 70, 70);
+            else sprite.Color = Color.White;
         }
     } = false;
     public Door() //constructorn till dörren
@@ -81,7 +83,8 @@ public class Key : Entity
     }
     public override void Update(Scene scene, float deltaTime)
     {
-        scene.FindByType(out Player player); 
+        
+        scene.FindByType(out Player player);
         FloatRect boundsA = this.Bounds;
         FloatRect boundsB = player.Bounds;
         if (Collision.RectangleRectangle(boundsA, boundsB, out _)) // understreck värkar va nån "jag bryr mig inte om den här variabeln, skit i den"-grej

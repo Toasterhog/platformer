@@ -17,6 +17,10 @@ namespace platformer {
                 Entity.InitEntitytextures(); //viktigt att detta är innan de andra innit sakerna
                 Scene scene = new Scene();
                 scene.Load("level0");
+                // window.SetView(new View(
+                //     new Vector2f(207, 165), // finns ingen specifik bakom värdena förrutom att det ser bättre för att spelet blir centrerat i vyn
+                //     new Vector2f(400, 300)
+                // )); 
                 window.SetView(new View(
                     new Vector2f(200, 150), // finns ingen specifik bakom värdena förrutom att det ser bättre för att spelet blir centrerat i vyn
                     new Vector2f(400, 300)
