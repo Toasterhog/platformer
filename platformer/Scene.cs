@@ -67,7 +67,7 @@ namespace platformer {
                 string file = $"assets/{nextScene}.txt";
                 Console.WriteLine($"Loading scene '{file}'");
                 // Loads scene from text file
-                foreach (var line in File.ReadLines(file, System.Text.Encoding.UTF8))
+                foreach (var line in File.ReadLines(file, System.Text.Encoding.UTF8)) 
                 {
                    string parsed = line.Trim();
                    int commentAt = parsed.IndexOf('#'); //returerar -1 om "#" inte finns
@@ -113,7 +113,7 @@ namespace platformer {
                 nextScene = null;
             }
 
-            public bool FindByType<T>(out T found) where T : Entity
+            public bool FindByType<T>(out T found) where T : Entity // säger bara att T måste vara en entity eller att den måste ärva något från entity
             {
                 for (int i = 0; i < entities.Count; i++)
                 {
@@ -122,7 +122,6 @@ namespace platformer {
                         found = match;
                         return true;
                     }
-
                     Entity entity = entities[i];
                     if (!entity.Dead && entity is T typed)
                     {

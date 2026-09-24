@@ -11,7 +11,7 @@ public class Entity {
     public virtual bool Solid => false;
     public static Dictionary<string, Texture> textures = new(); 
     
-    protected Entity() {
+    protected Entity() { // här skapas entity:n med bara en sprite
         sprite = new Sprite();
     }
 
