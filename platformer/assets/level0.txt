@@ -1,6 +1,6 @@
 ﻿# Door & Key
-d 351 288 level1 // bytte position eftersom door:n flög i luften
-k 225 100 // bytte position eftersom att key:n flög i luften
+d 342 270 level1
+k 216 72
 
 # Hero
 h 54 270

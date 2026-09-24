@@ -57,7 +57,7 @@ public class Player : Entity
             isGrounded = false;
         }
 
-        Console.WriteLine($"{Position.Y}");
+        
         if (Position.Y > 300f)
         {
             scene.Reload();
