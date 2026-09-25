@@ -13,6 +13,10 @@ public class Player : Entity
     private float verticalSpeed = 100.0f;
     private bool isGrounded = false;
     private bool isUpPressed = false;
+    
+    private float walkAnimationTime = 0.0f;
+    private bool DoWalkAnimation = false;
+    private const float walkAnimationSecondsPerFrame = 1.0f / 8.0f; //8 FPS
     public override FloatRect Bounds {
         get {
             var bounds = base.Bounds;
@@ -33,15 +37,31 @@ public class Player : Entity
     
     public override void Update(Scene scene, float deltaTime)
     {
+        DoWalkAnimation = false;
         if (Keyboard.IsKeyPressed(Keyboard.Key.Left))
         {
             scene.TryMove(this, new Vector2f(-100*deltaTime, 0)); // så att det matchar det nya trymove functionen i scene
             faceRight = false;
+            DoWalkAnimation = true;
         }
         if (Keyboard.IsKeyPressed(Keyboard.Key.Right))
         {
             scene.TryMove(this, new Vector2f(100 * deltaTime, 0));
             faceRight = true;
+            DoWalkAnimation = true;
+        }
+
+        if (DoWalkAnimation)
+        {
+            walkAnimationTime += deltaTime;
+            if (walkAnimationTime >= 2.0f * walkAnimationSecondsPerFrame) //längd på hela animationen
+            {
+                walkAnimationTime = 0.0f;
+            }
+        }
+        else
+        {
+            walkAnimationTime = 0.0f;
         }
       
         verticalSpeed += GravityForce * deltaTime;
@@ -68,7 +88,7 @@ public class Player : Entity
         }
 
         
-        if (Position.Y > 300f)
+        if (Position.Y > Program.WINDOW_HEIGHT * 0.5f)
         {
             scene.Reload();
         }
@@ -76,6 +96,15 @@ public class Player : Entity
 
     public override void Render(RenderTarget target)
     {
+        if (walkAnimationTime >= walkAnimationSecondsPerFrame)
+        {
+            sprite.TextureRect = new IntRect(24, 0, 24, 24);
+        }
+        else
+        {
+            sprite.TextureRect = new IntRect(0, 0, 24, 24);
+        }
+        
         sprite.Scale = new Vector2f(faceRight ? -1 : 1, 1);
         base.Render(target);
     }
