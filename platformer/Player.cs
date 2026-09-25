@@ -13,6 +13,8 @@ public class Player : Entity
     private float verticalSpeed = 100.0f;
     private bool isGrounded = false;
     private bool isUpPressed = false;
+    
+    
     public override FloatRect Bounds {
         get {
             var bounds = base.Bounds;
@@ -61,16 +63,15 @@ public class Player : Entity
                 isGrounded = true;
             }
             verticalSpeed = 0.0f;
-            
         }
         else {
             isGrounded = false;
         }
-
         
         if (Position.Y > 300f)
         {
             scene.Reload();
+            scene.money = scene.savedMoney;
         }
     }
 

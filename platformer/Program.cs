@@ -2,7 +2,6 @@
 using SFML.System;
 using SFML.Window;
 
-
 namespace platformer {
     class Program
     {   
@@ -17,24 +16,36 @@ namespace platformer {
                 Entity.InitEntitytextures(); //viktigt att detta är innan de andra innit sakerna
                 Scene scene = new Scene();
                 scene.Load("level0");
-                // window.SetView(new View(
-                //     new Vector2f(207, 165), // finns ingen specifik bakom värdena förrutom att det ser bättre för att spelet blir centrerat i vyn
-                //     new Vector2f(400, 300)
-                // )); 
                 window.SetView(new View(
                     new Vector2f(200, 150), // finns ingen specifik bakom värdena förrutom att det ser bättre för att spelet blir centrerat i vyn
                     new Vector2f(400, 300)
-                )); 
+                ));
+                
+                Font font = new Font("assets/future.ttf");
+                Text coins = new Text($"Money:", font, 12);
+                coins.FillColor = Color.White;
+                coins.OutlineColor = Color.Black;
+                coins.OutlineThickness = 2;
+                coins.Position = new Vector2f(10, 10);
                 
                 Clock clock = new Clock();
-                while (window.IsOpen) {
+                while (window.IsOpen)
+                {
+              
                     window.DispatchEvents();
                     float deltaTime = clock.Restart().AsSeconds();
-                    // Updates
+                    // Updateshud
                     scene.UpdateAll(deltaTime);
+                    if (scene.FindByType(out Player player))
+                    {
+                        coins.DisplayedString = $"Money:{scene.money} ";
+                    }
                     window.Clear();
+                
                     // Drawing
                     scene.RenderAll(window);
+                    window.Draw(coins); // ritar ut coins värde på skärmen
+                    
                     window.Display();
                 }
             }

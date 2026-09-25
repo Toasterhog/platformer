@@ -1,4 +1,5 @@
-﻿using SFML.Graphics;
+﻿using System.Data.SqlTypes;
+using SFML.Graphics;
 using SFML.System;
 namespace platformer;
 
@@ -37,11 +38,34 @@ public class Background : Entity
             }
         }
     }
+} 
+
+public class Coin : Entity
+{
+    public Coin()
+    {
+        sprite.TextureRect = new IntRect(0, 0, 20, 20);
+        sprite.Origin = new Vector2f(10, 10);
+        sprite.Texture = textures["Coins"];
+    }
+    public override void Update(Scene scene, float deltatime)
+    {
+        if (scene.FindByType(out Player player))
+        {
+            FloatRect boundsA = this.Bounds;
+            FloatRect boundsB = player.Bounds;
+            if (Collision.RectangleRectangle(boundsA, boundsB, out _))
+            {
+                scene.money += 1;
+                Console.WriteLine($"{scene.money}");
+                Dead = true;
+            }
+        }
+    }
 }
 public class Door : Entity //ruben fatter ej default värden på properties här 
 {
     public string nextScene = "level0"; //bara default värde
-    
     private bool _unlocked = false;
     public bool unlocked // property med en custom setter, varje gång unlocked säts så körs setter logiken och sätter färgen av dörren till grå.
     {
@@ -68,7 +92,9 @@ public class Door : Entity //ruben fatter ej default värden på properties här
             FloatRect boundsB = player.Bounds;
             if (Collision.RectangleRectangle(boundsA, boundsB, out _)) // understreck värkar va nån "jag bryr mig inte om den här variabeln, skit i den"-grej. ps viktor: nice förklaring haha
             {
+                Console.WriteLine($"money :{scene.savedMoney}");
                 scene.Load(nextScene);
+                scene.savedMoney = scene.money;
             }
         }
     }
@@ -83,7 +109,6 @@ public class Key : Entity
     }
     public override void Update(Scene scene, float deltaTime)
     {
-        
         scene.FindByType(out Player player);
         FloatRect boundsA = this.Bounds;
         FloatRect boundsB = player.Bounds;

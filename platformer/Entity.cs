@@ -28,7 +28,7 @@ public class Entity {
         {
             textures.Clear();
         }
-        foreach (string textureName in new string[] {"tileset", "background","characters"})
+        foreach (string textureName in new string[] {"tileset", "background","characters","Coins"})
         {
             // if (textures.TryGetValue(textureName, out Texture found))
             // {

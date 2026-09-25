@@ -10,6 +10,8 @@ namespace platformer {
         public Scene() {
             entities = new List<Entity>();
         }
+        public int money = 0;
+        public int savedMoney = 0; 
         
         public void Spawn(Entity entity) { //spawnar
             entities.Add(entity);
@@ -62,6 +64,7 @@ namespace platformer {
             private void HandleSceneChange() 
             {
                 if (nextScene == null) return;
+                savedMoney = money;
                 entities.Clear();
                 Spawn(new Background());
                 string file = $"assets/{nextScene}.txt";
@@ -96,6 +99,10 @@ namespace platformer {
                            break;
                        case "h":
                            entity = new Player();
+                           entity.Position = new Vector2f(float.Parse(words[1]), float.Parse(words[2]));
+                           break;
+                       case "c":
+                           entity = new Coin();
                            entity.Position = new Vector2f(float.Parse(words[1]), float.Parse(words[2]));
                            break;
                        default: //för att jag inte fick null att funka
