@@ -5,15 +5,27 @@ namespace platformer;
 public class Platform : Entity
 {
     public override bool Solid => true; //gör så att andra entities som player colliederar med platforms
-    public Platform()  { // constructorn till platforms
+    public Platform() // constructorn till platforms
+    {
         sprite.TextureRect = new IntRect(0, 0, 18, 18); 
         sprite.Origin = new Vector2f(9, 9);
         sprite.Texture = textures["tileset"];
     }
 }
+
+public class BreakablePlatform : Platform
+{
+    public BreakablePlatform()  : base()
+    {
+        sprite.TextureRect = new IntRect(0, 36, 18, 18);
+    }
+}
+
+
 public class Background : Entity
 {
-    public Background() { //constructorn till bakgrunden
+    public Background() //constructorn till bakgrunden
+    {
         sprite.TextureRect = new IntRect(0, 0, 24, 24);
         sprite.Origin = new Vector2f(12, 12);
         sprite.Texture = textures["background"];
@@ -97,3 +109,4 @@ public class Key : Entity
         }
     }
 }
+
