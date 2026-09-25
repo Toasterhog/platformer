@@ -70,78 +70,73 @@ namespace platformer {
             }
             return collided;
         }
-        private void HandleSceneChange() 
+
+        private void HandleSceneChange()
         {
             if (nextScene == null) return;
+            savedMoney = money;
             entities.Clear();
             Spawn(new Background());
             string file = $"assets/{nextScene}.txt";
             Console.WriteLine($"Loading scene '{file}'");
             // Loads scene from text file
-            foreach (var line in File.ReadLines(file, System.Text.Encoding.UTF8)) 
+            foreach (var line in File.ReadLines(file, System.Text.Encoding.UTF8))
             {
-                if (nextScene == null) return;
-                savedMoney = money;
-                entities.Clear();
-                Spawn(new Background());
-                string file = $"assets/{nextScene}.txt";
-                Console.WriteLine($"Loading scene '{file}'");
-                // Loads scene from text file
-                foreach (var line in File.ReadLines(file, System.Text.Encoding.UTF8)) 
+                string parsed = line.Trim();
+                int commentAt = parsed.IndexOf('#'); //returerar -1 om "#" inte finns
+                if (commentAt >= 0)
                 {
-                   string parsed = line.Trim();
-                   int commentAt = parsed.IndexOf('#'); //returerar -1 om "#" inte finns
-                   if (commentAt >= 0) {
-                       parsed = parsed.Substring(0, commentAt);
-                       parsed = parsed.Trim();
-                   }
-                   if (parsed.Length == 0) continue;
-                   string[] words = parsed.Split(" ");
-                   Entity entity; //frågetecken betyder att det är ok att den är null (onödigt för klasser eftersom de är referenstyper)
-                   switch(words[0]) {
-                       case "w":
-                           entity = new Platform();
-                           entity.Position = new Vector2f(float.Parse(words[1]), float.Parse(words[2]));
-                           break;
-                       case "b":
-                           entity = new BreakablePlatform();
-                           entity.Position = new Vector2f(float.Parse(words[1]), float.Parse(words[2]));
-                           break;
-                       case "d":
-                           entity = new Door();
-                           entity.Position = new Vector2f(float.Parse(words[1]), float.Parse(words[2]));
-                           Door d = entity as Door; // jag är polymorphism profs /s HJÄÖLP HÄP
-                           d.nextScene = words[3];
-                           entity = d;
-                           break;
-                       case "k":
-                           entity = new Key();
-                           entity.Position = new Vector2f(float.Parse(words[1]), float.Parse(words[2]));
-                           break;
-                       case "h":
-                           entity = new Player();
-                           entity.Position = new Vector2f(float.Parse(words[1]), float.Parse(words[2]));
-                           break;
-                       case "c":
-                           entity = new Coin();
-                           entity.Position = new Vector2f(float.Parse(words[1]), float.Parse(words[2]));
-                           break;
-                       default: //för att jag inte fick null att funka
-                           entity = new Platform();
-                           entity.Position = new Vector2f(-6767f, 0f);
-                           break;
-                   }
-                   if (!(entity.Position.X == -6767f))
-                   {
-                       Spawn(entity);
-                   }
-                       
-                } 
-                currentScene = nextScene; 
-                nextScene = null;
+                    parsed = parsed.Substring(0, commentAt);
+                    parsed = parsed.Trim();
+                }
+        
+                if (parsed.Length == 0) continue;
+                string[] words = parsed.Split(" ");
+                Entity entity; //frågetecken betyder att det är ok att den är null (onödigt för klasser eftersom de är referenstyper)
+                switch (words[0])
+                {
+                    case "w":
+                        entity = new Platform();
+                        entity.Position = new Vector2f(float.Parse(words[1]), float.Parse(words[2]));
+                        break;
+                    case "b":
+                        entity = new BreakablePlatform();
+                        entity.Position = new Vector2f(float.Parse(words[1]), float.Parse(words[2]));
+                        break;
+                    case "d":
+                        entity = new Door();
+                        entity.Position = new Vector2f(float.Parse(words[1]), float.Parse(words[2]));
+                        Door d = entity as Door; // jag är polymorphism profs /s HJÄLP HÄP
+                        d.nextScene = words[3];
+                        entity = d;
+                        break;
+                    case "k":
+                        entity = new Key();
+                        entity.Position = new Vector2f(float.Parse(words[1]), float.Parse(words[2]));
+                        break;
+                    case "h":
+                        entity = new Player();
+                        entity.Position = new Vector2f(float.Parse(words[1]), float.Parse(words[2]));
+                        break;
+                    case "c":
+                        entity = new Coin();
+                        entity.Position = new Vector2f(float.Parse(words[1]), float.Parse(words[2]));
+                        break;
+                    default: //för att jag inte fick null att funka
+                        entity = new Platform();
+                        entity.Position = new Vector2f(-6767f, 0f);
+                        break;
+                }
+                if (!(entity.Position.X == -6767f))
+                {
+                    Spawn(entity);
+                }
+            }
+            currentScene = nextScene;
+            nextScene = null;
+        }
 
-
-        public bool FindByType<T>(out T found) where T : Entity // säger bara att T måste vara en entity eller att den måste ärva något från entity
+        public bool FindByType<T>(out T found) where T : Entity
         {
             for (int i = 0; i < entities.Count; i++)
             {
@@ -159,7 +154,7 @@ namespace platformer {
             }
             found = null;
             return false;
-        }
+        } // säger bara att T måste vara en entity eller att den måste ärva något från entity
         
         public void Load(String LevelName)
         {
