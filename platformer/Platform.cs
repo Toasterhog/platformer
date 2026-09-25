@@ -14,9 +14,9 @@ public class Platform : Entity
     }
 }
 
-public class BreakablePlatform : Platform
+public class BreakablePlatform : Platform // breakable platforms classen som är child till platform
 {
-    public BreakablePlatform()  : base()
+    public BreakablePlatform() : base()
     {
         sprite.TextureRect = new IntRect(0, 36, 18, 18);
     }
@@ -52,15 +52,15 @@ public class Background : Entity
     }
 } 
 
-public class Coin : Entity
+public class Coin : Entity // coins class
 {
-    public Coin()
+    public Coin() // coinens constructor
     {
         sprite.TextureRect = new IntRect(0, 0, 20, 20);
         sprite.Origin = new Vector2f(10, 10);
         sprite.Texture = textures["Coins"];
     }
-    public override void Update(Scene scene, float deltatime)
+    public override void Update(Scene scene, float deltatime) // coinens update kollar om spelaren colliderar med boundsen av coin så går money up och coinen försvinner.
     {
         if (scene.FindByType(out Player player))
         {
@@ -75,7 +75,7 @@ public class Coin : Entity
         }
     }
 }
-public class Door : Entity //ruben fatter ej default värden på properties här 
+public class Door : Entity 
 {
     public string nextScene = "level0"; //bara default värde
     private bool _unlocked = false;
@@ -102,7 +102,7 @@ public class Door : Entity //ruben fatter ej default värden på properties här
             scene.FindByType(out Player player);
             FloatRect boundsA = this.Bounds;
             FloatRect boundsB = player.Bounds;
-            if (Collision.RectangleRectangle(boundsA, boundsB, out _)) // understreck värkar va nån "jag bryr mig inte om den här variabeln, skit i den"-grej. ps viktor: nice förklaring haha
+            if (Collision.RectangleRectangle(boundsA, boundsB, out _)) // understreck värkar va nån "jag bryr mig inte om den här variabeln, den används när fler värden ska kunna returnas
             {
                 Console.WriteLine($"money :{scene.savedMoney}");
                 scene.Load(nextScene);
@@ -124,7 +124,7 @@ public class Key : Entity
         scene.FindByType(out Player player);
         FloatRect boundsA = this.Bounds;
         FloatRect boundsB = player.Bounds;
-        if (Collision.RectangleRectangle(boundsA, boundsB, out _)) // understreck värkar va nån "jag bryr mig inte om den här variabeln, skit i den"-grej
+        if (Collision.RectangleRectangle(boundsA, boundsB, out _)) // understreck värkar va nån "jag bryr mig inte om den här variabeln, skit i den"-grej, den används när fler värden ska kunna returnas
         {
             if (scene.FindByType(out Door door)) // if ifall dörr inte finns i scenen
             {

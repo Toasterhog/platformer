@@ -21,6 +21,7 @@ namespace platformer {
                     new Vector2f(400, 300)
                 ));
                 
+                //fonten
                 Font font = new Font("assets/future.ttf");
                 Text coins = new Text($"Money:", font, 12);
                 coins.FillColor = Color.White;
@@ -28,20 +29,18 @@ namespace platformer {
                 coins.OutlineThickness = 2;
                 coins.Position = new Vector2f(10, 10);
                 
+                //Drawing och Updates
                 Clock clock = new Clock();
                 while (window.IsOpen)
                 {
-              
                     window.DispatchEvents();
                     float deltaTime = clock.Restart().AsSeconds();
-                    // Updateshud
                     scene.UpdateAll(deltaTime);
-                    if (scene.FindByType(out Player player))
+                    if (scene.FindByType(out Player player)) // UpdatesHud 
                     {
                         coins.DisplayedString = $"Money:{scene.money} ";
                     }
                     window.Clear();
-                
                     // Drawing
                     scene.RenderAll(window);
                     window.Draw(coins); // ritar ut coins värde på skärmen

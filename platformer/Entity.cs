@@ -30,11 +30,6 @@ public class Entity {
         }
         foreach (string textureName in new string[] {"tileset", "background","characters","Coins"})
         {
-            // if (textures.TryGetValue(textureName, out Texture found))
-            // {
-            //     Console.WriteLine("tried loading " + textureName + "twice");
-            //     continue;
-            // }
             string fileName = $"assets/{textureName}.png";
             Texture texture = new Texture(fileName);
             textures.Add(textureName, texture);

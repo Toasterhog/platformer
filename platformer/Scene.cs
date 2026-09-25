@@ -45,7 +45,6 @@ namespace platformer {
         public bool TryMove(Entity entity, Vector2f movement) {
             entity.Position += movement;
             bool collided = false;
-            
             for (int i = 0; i < entities.Count; i++) {
                 Entity other = entities[i];
                 if (!other.Solid) continue;
@@ -57,14 +56,9 @@ namespace platformer {
                     entity.Position += hit.Normal * hit.Overlap;
                     i = -1; //dethär kolla om allt 1 gång till
                     collided = true;
-                    if (hit.Normal.Y > 0 && other is BreakablePlatform && entity is Player) /////// DETTE ÄR NYTT /////// det är nog bättra att göra det i breakableplatform klasen men jag hitta inget enkelt sätt att göra det på
+                    if (hit.Normal.Y > 0 && other is BreakablePlatform && entity is Player) // det är nog bättra att göra det i breakableplatform klassen
                     {
                         other.Dead = true;
-                        ////avkommentera dätta när/om du gjort Coin bonusen
-                        // Coin coin = new Coin();
-                        // coin.position = other.Position;
-                        // //coin.verticalSpeed = -50f;
-                        // Spawn(coin);
                     }
                 }
             }
@@ -100,7 +94,7 @@ namespace platformer {
                         entity.Position = new Vector2f(float.Parse(words[1]), float.Parse(words[2]));
                         break;
                     case "b":
-                        entity = new BreakablePlatform();
+                        entity = new BreakablePlatform(); // sätter ut breakable platformsen
                         entity.Position = new Vector2f(float.Parse(words[1]), float.Parse(words[2]));
                         break;
                     case "d":
@@ -122,7 +116,7 @@ namespace platformer {
                         entity = new Coin();
                         entity.Position = new Vector2f(float.Parse(words[1]), float.Parse(words[2]));
                         break;
-                    default: //för att jag inte fick null att funka
+                    default: //för att vi inte fick null att funka
                         entity = new Platform();
                         entity.Position = new Vector2f(-6767f, 0f);
                         break;
